@@ -64,8 +64,8 @@ def main(lista_path: str,
         tl.print_and_log_debug(f"Nome do cliente identificado muito comprido. Truncado para {cliente}.")
 
     # Templates
-    label_template = "item_template_2.html"
-    label_css_temp = "style.css"
+    label_template = r"html\item_template_2.html"
+    label_css_temp = r"html\style.css"
     tl.print_and_log_debug(f"Template HTML: {label_template}")
     tl.print_and_log_debug(f"Template CSS: {label_css_temp}")
 

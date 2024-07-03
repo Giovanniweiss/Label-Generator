@@ -3,9 +3,10 @@ test_files/
 tests/
 qr_codes/
 imagens/
-html/
 logs/
 *.pdf
+doc_company.md
+output/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -36,7 +37,6 @@ share/python-wheels/
 MANIFEST
 old/
 logs/
-html/
 test_files/
 processing_logs/
 main_code_logs/

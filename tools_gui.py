@@ -71,7 +71,7 @@ def abrir_GUI():
     root = tk.Tk()
     gui = GUI(root)
     root.title("Gerador de adesivos")
-    root.geometry("500x400")
+    root.geometry("300x200")
     root.mainloop()
     lista, destino = gui.get_paths()
     return lista, destino
