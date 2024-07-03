@@ -9,14 +9,16 @@
             width: 100mm;
             height: 60mm;
             border: 2px solid black;
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 5px;
+            padding: 5px;
             box-sizing: border-box;
             position: relative;
             font-family: Arial, sans-serif;
+            
         }
         .label div {
-            margin-bottom: 5px;
+            max-width: 65mm;
+            margin-bottom: 10px;
         }
         .logo {
             position: absolute;
@@ -27,8 +29,8 @@
         }
         .qr-code {
             position: absolute;
-            bottom: 10px;
-            right: 10px;
+            bottom: 5px;
+            right: 5px;
             width: 30mm;
             height: 30mm;
         }
@@ -41,9 +43,35 @@
         }
         .placeholder {
             font-weight: bold;
+            font-size: 80%;
+            margin-bottom: 10px;
         }
         .value {
-            margin-left: 10px;
+            margin-left: 5px;
+            inline-size: 50px;
+            overflow-wrap: break-word;
+            
+        }
+        .value_half {
+            margin-left: 5px;
+            inline-size: 25px;
+            overflow-wrap: break-word;
+            font-size: 100%;
+            
+        }
+        .row {
+            display: inline-block;
+            justify-content: space-between;
+            max-height: 15mm;
+            max-width: 40mm;
+            
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            max-width: 20mm;
+            margin-right: 10mm;
+            
         }
     </style>
 </head>
@@ -53,11 +81,23 @@
         <div><span class="placeholder">DESENHO:</span> <span class="value">{{ desenho }}</span></div>
         <div><span class="placeholder">CONJUNTO:</span> <span class="value">{{ conjunto }}</span></div>
         <div><span class="placeholder">MATERIAL:</span> <span class="value">{{ material }}</span></div>
-        <div><span class="placeholder">QUANT.:</span> <span class="value">{{ qntd }}</span></div>
-        <div><span class="placeholder">COMP.:</span> <span class="value">{{ comp }}</span></div>
-        <div><span class="placeholder">LARG.:</span> <span class="value">{{ larg }}</span></div>
+        <div class="row">
+            <div class="column">
+                <div><span class="placeholder">OF:</span> <span class="value_half">{{ of }}</span></div>
+            </div>
+            <div class="column">
+                <div><span class="placeholder">QNTD.:</span> <span class="value_half">{{ qntd }}</span></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <div><span class="placeholder">LARG.:</span> <span class="value_half">{{ larg }}</span></div>
+            </div>
+            <div class="column">
+                <div><span class="placeholder">COMP.:</span> <span class="value_half">{{ comp }}</span></div>
+            </div>
+        </div>
         <div><span class="placeholder">CLIENTE:</span> <span class="value">{{ cliente }}</span></div>
-        <div><span class="placeholder">OF:</span> <span class="value">{{ of }}</span></div>
         <div class="qr-code">
             <img src="{{ qr_code }}" alt="QR Code">
         </div>
