@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Label</title>
+    <style>
+        .label {
+            width: 100mm;
+            height: 60mm;
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+            font-family: Arial, sans-serif;
+        }
+        .label div {
+            margin-bottom: 5px;
+        }
+        .logo {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 50px;
+            height: auto;
+        }
+        .qr-code {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 30mm;
+            height: 30mm;
+        }
+        .barcode {
+            position: absolute;
+            bottom: 10px;
+            right: 45mm;
+            width: 30mm;
+            height: 30mm;
+        }
+        .placeholder {
+            font-weight: bold;
+        }
+        .value {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="label">
+        <img src="{{ company_logo }}" alt="Logo" class="logo">
+        <div><span class="placeholder">DESENHO:</span> <span class="value">{{ desenho }}</span></div>
+        <div><span class="placeholder">CONJUNTO:</span> <span class="value">{{ conjunto }}</span></div>
+        <div><span class="placeholder">MATERIAL:</span> <span class="value">{{ material }}</span></div>
+        <div><span class="placeholder">QUANT.:</span> <span class="value">{{ qntd }}</span></div>
+        <div><span class="placeholder">COMP.:</span> <span class="value">{{ comp }}</span></div>
+        <div><span class="placeholder">LARG.:</span> <span class="value">{{ larg }}</span></div>
+        <div><span class="placeholder">CLIENTE:</span> <span class="value">{{ cliente }}</span></div>
+        <div><span class="placeholder">OF:</span> <span class="value">{{ of }}</span></div>
+        <div class="qr-code">
+            <img src="{{ qr_code }}" alt="QR Code">
+        </div>
+        <!-- <div class="barcode">Barcode</div> -->
+    </div>
+</body>
+</html>
