@@ -1,5 +1,5 @@
 # Import libraries
-import os, pandas as pd, getpass, logging, shutil
+import os, pandas as pd, getpass, logging, shutil, sys
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -63,36 +63,36 @@ def main(lista_path: str,
         cliente = cliente[:20]
         tl.print_and_log_debug(f"Nome do cliente identificado muito comprido. Truncado para {cliente}.")
 
+    # Templates
+    label_template = "item_template_2.html"
+    label_css_temp = "style.css"
+    tl.print_and_log_debug(f"Template HTML: {label_template}")
+    tl.print_and_log_debug(f"Template CSS: {label_css_temp}")
+
     # Almox Stickers
     tl.print_and_log_debug("Iniciando geração dos adesivos do departamento ALMOX.")
-    try:
-        almox_output = os.path.join(destino, "_".join([cliente, "etiq_almox"]) + ".pdf")
-        output_path_1 = st.create_stickers(romaneio_almox, almox_output, cliente, override_qty=True)
-        tl.print_and_log_debug(f"Processados adesivos do ALMOX. Salvo PDF em: {output_path_1}")
-    except Exception as e:
-        tl.print_and_log_debug(f"Falha ao processar os adesivos para ALMOX. Erro apontado: {e}")
-        raise e
+    almox_output = os.path.join(destino, "_".join([cliente, "etiq_almox"]) + ".pdf")
+    output_path_1 = st.create_stickers(romaneio_almox, almox_output, cliente, override_qty=True, label_template=label_template, label_css_temp=label_css_temp)
+    tl.print_and_log_debug(f"Processados adesivos do ALMOX. Salvo PDF em: {output_path_1}")
     
     # Prod Stickers
     tl.print_and_log_debug("Iniciando geração dos adesivos do departamento PRODUÇÃO.")
-    try:
-        prod_output = os.path.join(destino, "_".join([cliente, "etiq_prod"]) + ".pdf")
-        output_path_2 = st.create_stickers(romaneio_prod, prod_output, cliente, override_qty=False)
-        tl.print_and_log_debug(f"Processados adesivos da PRODUÇÃO. Salvo PDF em: {output_path_2}")
-    except Exception as e:
-        tl.print_and_log_debug(f"Falha ao processar os adesivos para PRODUÇÃO. Erro apontado: {e}")
-        raise e
+    prod_output = os.path.join(destino, "_".join([cliente, "etiq_prod"]) + ".pdf")
+    output_path_2 = st.create_stickers(romaneio_prod, prod_output, cliente, override_qty=False, label_template=label_template, label_css_temp=label_css_temp)
+    tl.print_and_log_debug(f"Processados adesivos da PRODUÇÃO. Salvo PDF em: {output_path_2}")
 
-
+    # Finalização do código
     final = input("Finalizada geração de adesivos. Pressione enter para finalizar o programa.")
-    logging.debug(f"{final}")
+    logging.debug(f"Code executed successfully. Shutting down. User message: {final}")
     tl.close_log_handlers()
 
-    # Move the logs file
+    # Move the log file
     if not os.path.exists(log_foldername):
         os.makedirs(log_foldername)
     shutil.move(logging_filename, log_foldername)
 
 if __name__ == "__main__":
     lista_path, target_folder = get_data_from_gui()
+    if lista_path == "" or target_folder == "":
+        sys.exit("Faltam argumentos para a execução do código. Fechando.")
     main(lista_path, target_folder)

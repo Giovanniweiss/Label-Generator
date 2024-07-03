@@ -27,10 +27,15 @@ def process_romaneio(lista_filename, quantity_key):
                     return value[len(prefix):]
         return None
 
+    def clean_cell(value):
+        if isinstance(value, str):
+            return value.rstrip(' \t')
+        return value
+
     # Find the first cell starting with "CLIENTE:"
     cliente = find_first_cliente(client_df)
-
     df = pd.read_excel(lista_filename, header=4)
+    df = df.applymap(clean_cell)
 
     # Limpeza de colunas desnecessárias
 
@@ -48,13 +53,13 @@ def process_romaneio(lista_filename, quantity_key):
         qty_type = row["UNIDADE"]
         match qty_type:
             case "PÇ" | "CX" | "RL" | "BD" | "SC":
-                df.loc[index, quantity_key] = str(row["QNT."]) + str(qty_type)
+                df.loc[index, quantity_key] = row["QNT."]
             case "MT" | "GL":
-                df.loc[index, quantity_key] = str(1) + str(qty_type)
+                df.loc[index, quantity_key] = 1
             case "KG":
-                df.loc[index, quantity_key] = str(row["QNT. PÇS"]) + str(qty_type)
+                df.loc[index, quantity_key] = row["QNT. PÇS"]
             case _:
-                df.loc[index, quantity_key] = str(1) + str(qty_type)
+                df.loc[index, quantity_key] = 1
 
     # Separações
     romaneio_completo = df
