@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 def process_romaneio(lista_filename, quantity_key):
 
@@ -47,17 +48,31 @@ def process_romaneio(lista_filename, quantity_key):
         qty_type = row["UNIDADE"]
         match qty_type:
             case "PÇ" | "CX" | "RL" | "BD" | "SC":
-                df.loc[index, quantity_key] = row["QNT."]
+                df.loc[index, quantity_key] = str(row["QNT."]) + str(qty_type)
             case "MT" | "GL":
-                df.loc[index, quantity_key] = 1
+                df.loc[index, quantity_key] = str(1) + str(qty_type)
             case "KG":
-                df.loc[index, quantity_key] = row["QNT. PÇS"]
+                df.loc[index, quantity_key] = str(row["QNT. PÇS"]) + str(qty_type)
             case _:
-                df.loc[index, quantity_key] = 1
+                df.loc[index, quantity_key] = str(1) + str(qty_type)
 
     # Separações
-    romaneio_completo = df.to_dict(orient='records')
-    romaneio_prod = get_prod_list(df).to_dict(orient='records')
-    romaneio_almox = get_almox_list(df).to_dict(orient='records')
+    romaneio_completo = df
+    romaneio_prod = get_prod_list(df)
+    romaneio_almox = get_almox_list(df)
 
     return romaneio_almox, romaneio_prod, romaneio_completo, cliente
+
+def save_romaneio(filename: str,
+                  path: str,
+                  romaneio_almox: pd.DataFrame,
+                  romaneio_prod: pd.DataFrame,
+                  romaneio_completo: pd.DataFrame):
+
+    save_path = os.path.join(path, filename) + ".xlsx"
+    with pd.ExcelWriter(save_path) as writer:
+        romaneio_almox.to_excel(writer, sheet_name="rom_almox", index=True)
+        romaneio_prod.to_excel(writer, sheet_name="rom_prod", index=True)
+        romaneio_completo.to_excel(writer, sheet_name="rom_comp", index=True)
+
+    return 0
