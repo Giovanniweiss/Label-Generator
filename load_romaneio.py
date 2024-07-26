@@ -1,4 +1,5 @@
 import pandas as pd
+import tools_logging as tl
 import os
 
 def process_romaneio(lista_filename, quantity_key):
@@ -25,7 +26,8 @@ def process_romaneio(lista_filename, quantity_key):
             for value in client_df[col]:
                 if isinstance(value, str) and value.startswith(prefix):
                     return value[len(prefix):]
-        return None
+        tl.print_and_log_debug("Nome do cliente não foi identificado na lista. Exigindo ao usuário que entre manualmente.")
+        return str(input("Digite o nome do cliente: "))
 
     def clean_cell(value):
         if isinstance(value, str):
@@ -39,7 +41,7 @@ def process_romaneio(lista_filename, quantity_key):
 
     # Limpeza de colunas desnecessárias
 
-    df.drop(columns=["CARREGAMENTO", "Unnamed: 10", "Unnamed: 11"], inplace=True)
+    df.drop(columns=["CARREGAMENTO", "RECEBIMENTO", "Unnamed: 11"], inplace=True)
     df.drop(df.tail(2).index,inplace=True)
     df.dropna(axis=0, how="all", inplace=True)
     def clean_cod_prod(entry):
