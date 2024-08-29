@@ -75,7 +75,7 @@ def create_stickers(records: dict,
             if override_qty:
                 quantity_to_add_to_sticker = str(value_quantity) + " " + value_unidade
             else:
-                quantity_to_add_to_sticker = f"{i} / {value_quantity}"
+                quantity_to_add_to_sticker = str(value_quantity) + " "
 
             output.append({
                 "desenho"       : value_desenho,
@@ -111,11 +111,13 @@ def create_stickers(records: dict,
         logging.debug(f"Gerado QR Code do item {value_desenho} em {qrcode_savepath}")
         
         # This is to reduce sticker quantities for small items.
-        if override_qty:
-            add_to_output(0)
-        else:
-            for i in range(1, int(entry[keys["qntd"]])+1):
-                add_to_output(i)
+        # if override_qty:
+        #     add_to_output(0)
+        # else:
+        #     for i in range(1, int(entry[keys["qntd"]])+1):
+        #         add_to_output(i)
+
+        add_to_output(0)
 
     # Generate the PDF with the labels
     label_writer.write_labels(output, target=output_path)

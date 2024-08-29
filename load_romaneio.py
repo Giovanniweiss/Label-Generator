@@ -3,18 +3,18 @@ import os
 
 def process_romaneio(lista_filename, quantity_key):
 
-    def filter_by_department(df, department):
-        filtered_df = df[df['DEPART.'] == department]
+    def filter_by_department(df: pd.DataFrame, department: str):
+        filtered_df = df[df['DEPART.'].str.startswith(department)]
         return filtered_df
 
     def get_prod_list(df):
         department = "PRODUÇÃO"
-        romaneio_prod = filter_by_department(df, department)
+        romaneio_prod = filter_by_department(df, department[0])
         return romaneio_prod
 
     def get_almox_list(df):
         department = "ALMOX."
-        romaneio_almox = filter_by_department(df, department)
+        romaneio_almox = filter_by_department(df, department[0])
         return romaneio_almox
 
     # Carregamento do arquivo
@@ -35,7 +35,7 @@ def process_romaneio(lista_filename, quantity_key):
     # Find the first cell starting with "CLIENTE:"
     cliente = find_first_cliente(client_df)
     df = pd.read_excel(lista_filename, header=4)
-    df = df.applymap(clean_cell)
+    df = df.map(clean_cell)
 
     # Limpeza de colunas desnecessárias
 
