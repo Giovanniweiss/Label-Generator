@@ -9,6 +9,7 @@ doc_company.md
 output/
 *.xls
 testes/
+test_file.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

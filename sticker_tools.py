@@ -1,5 +1,4 @@
 from blabel import LabelWriter
-from PIL import Image
 import segno, os, io, base64, logging
 from dotenv import load_dotenv
 
@@ -21,6 +20,8 @@ def company_logo():
 def create_stickers(records: dict,
                     output_path: str, 
                     cliente: str,
+                    data_adesivo: str,
+                    numero_pedido: str,
                     override_qty: bool=False,
                     label_template: str="item_template_2.html",
                     label_css_temp: str="style.css"):
@@ -87,6 +88,8 @@ def create_stickers(records: dict,
                 "cliente"       : cliente,
                 "of"            : value_of,
                 "qr_code"       : img_data,
+                "data"          : data_adesivo,
+                "pedido"        : numero_pedido,
                 "company_logo"  : company_logo
             })
 

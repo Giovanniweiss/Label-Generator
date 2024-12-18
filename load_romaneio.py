@@ -34,6 +34,10 @@ def process_romaneio(lista_filename, quantity_key):
 
     # Find the first cell starting with "CLIENTE:"
     cliente = find_first_cliente(client_df)
+
+    # Achar o numero do pedido
+    numero_pedido = client_df.iat[0,10]
+
     df = pd.read_excel(lista_filename, header=4)
     df = df.map(clean_cell)
 
@@ -66,7 +70,7 @@ def process_romaneio(lista_filename, quantity_key):
     romaneio_prod = get_prod_list(df)
     romaneio_almox = get_almox_list(df)
 
-    return romaneio_almox, romaneio_prod, romaneio_completo, cliente
+    return romaneio_almox, romaneio_prod, romaneio_completo, cliente, numero_pedido
 
 def save_romaneio(filename: str,
                   path: str,

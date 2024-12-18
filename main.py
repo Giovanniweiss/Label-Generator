@@ -1,5 +1,5 @@
 # Import libraries
-import os, pandas as pd, getpass, logging, shutil, sys
+import os, getpass, logging, shutil, sys
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -18,12 +18,13 @@ def start_time() -> str:
 
 
 def get_data_from_gui():
-    lista_path, target_folder = tg.abrir_GUI()
-    return lista_path, target_folder
+    lista_path, target_folder, data_adesivos = tg.abrir_GUI()
+    return lista_path, target_folder, data_adesivos
 
 
 def main(lista_path: str,
-         target_folder: str):
+         target_folder: str,
+         data_adesivos: str):
 
     # Get the info from the gui
     username = str(getpass.getuser())
@@ -34,7 +35,7 @@ def main(lista_path: str,
     folder_name = start_time + "_" + lista_filename_no_extension
     destino = os.path.join(target_folder, folder_name)
 
-    # Loggin setup.
+    # Logging setup.
     log_foldername = "./logs/" # This is bad, but works for now.
     logging_filename = folder_name + ".log"
     tl.logger_setup(logging_filename)
@@ -50,7 +51,7 @@ def main(lista_path: str,
     # Load the romaneio
     quantity_key = "QTD REAL"
     tl.print_and_log_debug(f"Iniciando processamento do romenaio. Chave para quantidade considerada: {quantity_key}")
-    romaneio_almox, romaneio_prod, romaneio_completo, cliente = lr.process_romaneio(lista_path, quantity_key)
+    romaneio_almox, romaneio_prod, romaneio_completo, cliente, numero_pedido = lr.process_romaneio(lista_path, quantity_key)
     romaneio_filename = "_".join(["relatorio", start_time])
     lr.save_romaneio(romaneio_filename, destino, romaneio_almox, romaneio_prod, romaneio_completo)
     tl.print_and_log_debug(f"Romaneio processado com sucesso. Cópia salva em {destino} sob o nome {romaneio_filename}")
@@ -72,13 +73,13 @@ def main(lista_path: str,
     # Almox Stickers
     tl.print_and_log_debug("Iniciando geração dos adesivos do departamento ALMOX.")
     almox_output = os.path.join(destino, "_".join([cliente, "etiq_almox"]) + ".pdf")
-    output_path_1 = st.create_stickers(romaneio_almox, almox_output, cliente, override_qty=True, label_template=label_template, label_css_temp=label_css_temp)
+    output_path_1 = st.create_stickers(romaneio_almox, almox_output, cliente, data_adesivos, numero_pedido, override_qty=True, label_template=label_template, label_css_temp=label_css_temp)
     tl.print_and_log_debug(f"Processados adesivos do ALMOX. Salvo PDF em: {output_path_1}")
     
     # Prod Stickers
     tl.print_and_log_debug("Iniciando geração dos adesivos do departamento PRODUÇÃO.")
     prod_output = os.path.join(destino, "_".join([cliente, "etiq_prod"]) + ".pdf")
-    output_path_2 = st.create_stickers(romaneio_prod, prod_output, cliente, override_qty=False, label_template=label_template, label_css_temp=label_css_temp)
+    output_path_2 = st.create_stickers(romaneio_prod, prod_output, cliente, data_adesivos, numero_pedido, override_qty=False, label_template=label_template, label_css_temp=label_css_temp)
     tl.print_and_log_debug(f"Processados adesivos da PRODUÇÃO. Salvo PDF em: {output_path_2}")
 
     # Finalização do código
@@ -92,7 +93,7 @@ def main(lista_path: str,
     shutil.move(logging_filename, log_foldername)
 
 if __name__ == "__main__":
-    lista_path, target_folder = get_data_from_gui()
-    if lista_path == "" or target_folder == "":
+    lista_path, target_folder, data_adesivos = get_data_from_gui()
+    if lista_path == "" or target_folder == "" or data_adesivos == "":
         sys.exit("Faltam argumentos para a execução do código. Fechando.")
-    main(lista_path, target_folder)
+    main(lista_path, target_folder, data_adesivos)

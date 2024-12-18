@@ -14,11 +14,13 @@
             box-sizing: border-box;
             position: relative;
             font-family: Arial, sans-serif;
+            font-size: 95%;
+            line-height: 100%;
             
         }
         .label div {
             max-width: 65mm;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         .logo {
             position: absolute;
@@ -44,7 +46,6 @@
         .placeholder {
             font-weight: bold;
             font-size: 80%;
-            margin-bottom: 10px;
         }
 
         .value {
@@ -66,7 +67,7 @@
             max-width: 40mm;
         }
         .row div{
-            margin-bottom: 5px;
+            margin-bottom: 3px;
             
         }
         .column {
@@ -103,6 +104,8 @@
                 <div><span class="placeholder">COMP.:</span> <span class="value_half">{{ comp }}</span></div>
             </div>
         </div>
+        <div><span class="placeholder">DATA:</span> <span class="value">{{ data }}</span></div>
+        <div><span class="placeholder">PEDIDO:</span> <span class="value">{{ pedido }}</span></div>
         <div class="qr-code">
             <img src="{{ qr_code }}" alt="QR Code">
         </div>
