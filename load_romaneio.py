@@ -4,7 +4,7 @@ import os
 def process_romaneio(lista_filename, quantity_key):
 
     def filter_by_department(df: pd.DataFrame, department: str):
-        filtered_df = df[df['DEPART.'].str.startswith(department)]
+        filtered_df = df[df['DEPTO.'].str.startswith(department)]
         return filtered_df
 
     def get_prod_list(df):
@@ -36,16 +36,18 @@ def process_romaneio(lista_filename, quantity_key):
     cliente = find_first_cliente(client_df)
 
     # Achar o numero do pedido
-    numero_pedido = client_df.iat[0,10]
+    numero_pedido = client_df.iat[0,11]
 
     df = pd.read_excel(lista_filename, header=4)
     df = df.map(clean_cell)
 
     # Limpeza de colunas desnecessárias
 
-    df.drop(columns=["CARREGAMENTO", "Unnamed: 10", "Unnamed: 11"], inplace=True)
+    imagem_index = df.columns.get_loc("IMAGEM")
+    df = df.iloc[:, :imagem_index]
     df.drop(df.tail(2).index,inplace=True)
     df.dropna(axis=0, how="all", inplace=True)
+    df = df.fillna(0)
     def clean_cod_prod(entry):
         # Remove tabs and replace double spaces with single spaces
         return str(entry).replace('\t', '').replace('  ', '')
@@ -54,6 +56,7 @@ def process_romaneio(lista_filename, quantity_key):
     df['CÓD. PROD.'] = df['CÓD. PROD.'].apply(lambda x: clean_cod_prod(x))
     
     for index, row in df.iterrows():
+        # This sucks because the methodology sucks, can't do better than this crap
         qty_type = row["UNIDADE"]
         match qty_type:
             case "PÇ" | "CX" | "RL" | "BD" | "SC" | "PC":

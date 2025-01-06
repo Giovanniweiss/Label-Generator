@@ -60,8 +60,8 @@ def main(lista_path: str,
     romaneio_prod = romaneio_prod.to_dict(orient='records')
     romaneio_almox = romaneio_almox.to_dict(orient='records')
 
-    if len(cliente) > 20:
-        cliente = cliente[:20]
+    if len(cliente) > 30:
+        cliente = cliente[:30]
         tl.print_and_log_debug(f"Nome do cliente identificado muito comprido. Truncado para {cliente}.")
 
     # Templates

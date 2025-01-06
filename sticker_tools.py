@@ -76,7 +76,7 @@ def create_stickers(records: dict,
             if override_qty:
                 quantity_to_add_to_sticker = str(value_quantity) + " " + value_unidade
             else:
-                quantity_to_add_to_sticker = str(value_quantity) + " "
+                quantity_to_add_to_sticker = str(value_quantity) + " " + "PÇ"
 
             output.append({
                 "desenho"       : value_desenho,
