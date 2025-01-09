@@ -25,7 +25,21 @@ def process_romaneio(lista_filename, quantity_key):
             for value in client_df[col]:
                 if isinstance(value, str) and value.startswith(prefix):
                     return value[len(prefix):]
-        return None
+        return "Cliente Indeterminado"
+
+    def find_cliente(df):
+        for idx, row in df.iterrows():
+            if 'CLIENTE' in row.values:
+                cliente_col = row[row == 'CLIENTE'].index[0]  # Get the column of "CLIENTE"
+                cliente_col_idx = df.columns.get_loc(cliente_col)  
+                if cliente_col_idx + 1 < len(row):  # Ensure there is a column to the right
+                    value_right = row.iloc[cliente_col_idx + 1]
+                    if not isinstance(value_right, str):
+                        return "Cliente Indeterminado"
+                    else:
+                        return value_right
+
+        return "Cliente Indeterminado"
 
     def clean_cell(value):
         if isinstance(value, str):
@@ -33,7 +47,8 @@ def process_romaneio(lista_filename, quantity_key):
         return value
 
     # Find the first cell starting with "CLIENTE:"
-    cliente = find_first_cliente(client_df)
+    #cliente = find_first_cliente(client_df)
+    cliente = find_cliente(client_df)
 
     # Achar o numero do pedido
     numero_pedido = client_df.iat[0,11]

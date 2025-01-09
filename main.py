@@ -1,7 +1,10 @@
 # Import libraries
+from pydoc import cli
 import os, getpass, logging, shutil, sys
 from dotenv import load_dotenv
 from datetime import datetime
+
+from numpy import isin
 
 # Import tool modules for this code
 import load_romaneio as lr
@@ -60,8 +63,27 @@ def main(lista_path: str,
     romaneio_prod = romaneio_prod.to_dict(orient='records')
     romaneio_almox = romaneio_almox.to_dict(orient='records')
 
-    if len(cliente) > 30:
-        cliente = cliente[:30]
+    if cliente == "Cliente Indeterminado":
+        tl.print_and_log_debug("")
+        tl.print_and_log_debug("")
+        tl.print_and_log_debug("-----------------------------------------------------------------------------------------")
+        tl.print_and_log_debug("Cliente não identificado na planilha. Pendido ao usuário para entrar um nome manualmente.")
+        tl.print_and_log_debug("-----------------------------------------------------------------------------------------")
+        cliente = input("Por favor, digite o nome do cliente para inserir nos adesivos (limite de 45 caracteres): ")
+        tl.print_and_log_debug("")
+        tl.print_and_log_debug("")
+
+    if isinstance(cliente, str):
+        tl.print_and_log_debug(f"Nome de cliente inserido pelo usuário: {cliente}")
+    else:
+        tl.print_and_log_debug(f"Houve algum erro identificando o nome do cliente na planilha ou na informação inserida pelo usuário.")
+        tl.print_and_log_debug("O software fechará. Avalie a planilha, corrija o erro e execute novamente.")
+        final = input("Pressione enter para fechar essa janela.")
+        tl.close_log_handlers()
+        return 1
+
+    if len(cliente) > 45:
+        cliente = cliente[:45]
         tl.print_and_log_debug(f"Nome do cliente identificado muito comprido. Truncado para {cliente}.")
 
     # Templates
