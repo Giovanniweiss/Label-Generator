@@ -34,7 +34,7 @@ def create_stickers(records: dict,
         "of"        : "OF",
         "comp"      : "COMP.",
         "larg"      : "LARG.",
-        "unit"      : "UNIDADE"
+        "unit"      : "UN."
     }
 
     # Ensure the QR codes directory exists.
