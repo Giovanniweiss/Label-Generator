@@ -30,6 +30,7 @@ def process_romaneio(lista_filename, quantity_key):
     def find_cliente(df):
         print(df)
         cliente_tag = 'CLIENTE: '
+        # This needs to be better
         try:
         #    for idx, row in df.iterrows():
         #        if cliente_tag in row.values:
@@ -80,7 +81,7 @@ def process_romaneio(lista_filename, quantity_key):
             case "KG":
                 df.loc[index, quantity_key] = row["PÇS"]
             case _:
-                df.loc[index, quantity_key] = max(row["QNT."], row["QNT. PÇS"])
+                df.loc[index, quantity_key] = max(row["QNT."], row["PÇS"])
 
     # Separações
     romaneio_completo = df

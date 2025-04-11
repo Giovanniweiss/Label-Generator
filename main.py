@@ -1,10 +1,9 @@
 # Import libraries
-from pydoc import cli
 import os, getpass, logging, shutil, sys
 from dotenv import load_dotenv
 from datetime import datetime
+import faulthandler 
 
-from numpy import isin
 
 # Import tool modules for this code
 import load_romaneio as lr
