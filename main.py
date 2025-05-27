@@ -2,8 +2,6 @@
 import os, getpass, logging, shutil, sys
 from dotenv import load_dotenv
 from datetime import datetime
-import faulthandler 
-
 
 # Import tool modules for this code
 import load_romaneio as lr
@@ -112,6 +110,7 @@ def main(lista_path: str,
     if not os.path.exists(log_foldername):
         os.makedirs(log_foldername)
     shutil.move(logging_filename, log_foldername)
+    return 0
 
 if __name__ == "__main__":
     lista_path, target_folder, data_adesivos = get_data_from_gui()

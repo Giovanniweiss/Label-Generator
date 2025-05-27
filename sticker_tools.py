@@ -3,8 +3,6 @@ import segno, os, io, base64, logging
 from dotenv import load_dotenv
 
 load_dotenv()
-logging.getLogger('fontTools').setLevel(logging.ERROR)
-logging.getLogger('weasyprint').setLevel(logging.ERROR)
 
 # This creates a company_logo variable that is the image loaded directly in memory.
 @lambda _: _()
@@ -123,5 +121,8 @@ def create_stickers(records: dict,
         add_to_output(0)
 
     # Generate the PDF with the labels
-    label_writer.write_labels(output, target=output_path)
-    return output_path
+    if not len(output) == 0:
+        label_writer.write_labels(output, target=output_path)
+        return output_path
+    else:
+        return ""
